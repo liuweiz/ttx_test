@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+</head>
+<body>
+<h1>修改密码</h1>
+<form method="post">
+    <p style="color: red">{{ err }}</p>
+    {% csrf_token %}
+    <label>用户名</label>
+    <input type="text" name="name"><br>
+    <label>新密码:</label>
+    <input type="text" name="new"><br>
+    <button>修改</button>
+</form>
+</body>
+</html>

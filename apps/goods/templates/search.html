@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block nav %}
+<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+                   {% for kind in Type %}
+			    <li><a href="{% url 'goods:type_list' kind.id  %}" class="{{ kind.logo }}">{{ kind.type }}</a></li>
+                {% endfor %}
+
+				</ul>
+			</div>
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+		<a href="#">{{ fruit }}</a>
+		<span>></span>
+		<a href="#">搜索结果如下:</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+        <ul class="goods_type_list clearfix">
+            {% for x in page_obj %}
+            <li>
+                <a href="{% url 'goods:goods' x.id %}"><img src="{{ x.img.url }}"></a>
+                <h4><a href="{% url 'goods:goods' x.id %}">{{ x.name }}</a></h4>
+                <div class="operate">
+                    <span class="prize">￥{{ x.price }}</span>
+                    <span class="unit">{{ x.price }}/500g</span>
+                </div>
+            </li>
+            {% endfor %}
+
+
+        </ul>
+        <div class="pagenation">
+            {% if page_obj.has_next %}
+				        <a href="{% url 'goods:search' %}?fruit={{ fruit }}&page={{ page_obj.next_page_number }}" class="active">&gt</a>
+            {% endif %}
+
+			</div>
+
+
+
+
+	<div class="footer">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>电话：010-****888    京ICP备*******8号</p>
+	</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>天天生鲜-商品分类</title>
+{% endblock %}
+{% block jc %}
+<style>
+    .contain>div{
+        float: left;
+    }
+    #left{
+        width: 200px;
+        height: 600px;
+        margin-left: 100px;
+    }
+    #right{
+        margin-left: 50px;
+
+    }
+ul>li{
+    list-style: none;
+}
+p{
+    text-align: center;
+}
+#right{
+    margin-top: 60px;
+    font-size: 20px;
+    width: 1000px;
+
+}
+.top_con{
+    background-color: #d6e9c6;
+    height: 40px;
+}
+.top_con>a{
+    margin-left: 20px;
+
+}
+.foot_con>ul>li{
+    float: left;
+    margin: 30px;
+    border: 1px solid greenyellow;
+    border-radius: 10px;
+}
+.page>ul>li{
+    float: left;
+    margin: 10px;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #bce8f1;
+    text-align: center;
+
+}
+.page{
+    margin-left: 500px;
+    margin-top: 10px;
+}
+</style>
+{% endblock %}
+{% block nav %}
+<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+                   {% for kind in Type %}
+			    <li><a href="{% url 'goods:type_list' kind.id  %}" class="{{ kind.logo }}">{{ kind.type }}</a></li>
+                {% endfor %}
+
+				</ul>
+			</div>
+{% endblock %}
+{% block content %}
+    <div class="contain">
+<div id="left">
+    <div style="font-size: 20px;margin-top: 10px;text-align: center;color: #00bc6f">全部分类 &gt {{ kinds.type }}</div>
+    <div style="text-align: center;font-size: 20px;margin-top: 20px;background: greenyellow">新品推荐</div>
+    <div>
+        <ul>
+            {% for ls in goods_list|slice:'0:2' %}
+            <li>
+                <a href="{% url 'goods:goods' ls.id %}"><img src="{{ ls.img.url }}"  style="width: 199.99px;height: 211.1px">
+            <p>{{ ls.name }}</p>
+            <p>￥ {{ ls.price }}</p>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div id="right">
+    <div class="top_con">
+        <a href="{{ request.path }}?order_by=id">默认</a>
+        <a href="{{ request.path }}?order_by=price">价格</a>
+    </div>
+    <div class="foot_con">
+    <ul>
+            {% for obj in page_obj %}
+            <li>
+            <a href="{% url 'goods:goods' obj.id %}">
+                <img src="{{ obj.img.url }}"  style="height: 235.31px;width: 181.98px">
+                <p>{{ obj.name }}</p>
+                <p>￥ {{ obj.price }}</p>
+            </a>
+            </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+     <div class="page">
+    <ul>
+        {% if page_obj.has_previous %}
+        <li><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">&lt</a></li>
+        {% endif %}
+        {% for x in paginator %}
+        <li style="{% if page_obj.number == x.number %} background-color: #dddddd {% endif %}"><a href="{{ request.path }}?page={{ x.number }}">{{ x.number }}</a> </li>
+    {% endfor %}
+    {% if page_obj.has_next %}
+        <li><a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&gt</a></li>
+    {% endif %}
+    </ul>
+</div>
+    </div>
+{% endblock %}

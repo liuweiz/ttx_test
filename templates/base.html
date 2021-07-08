@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+	{% block title %}<title>天天生鲜-首页</title>{% endblock %}
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+
+
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/js/slide.js"></script>
+    {% block jc %}
+
+    {% endblock %}
+    <style type="text/css">
+        #nav{
+            height:200px ;
+            width: 80px;
+
+
+        }
+        #nav>li{
+            height: 30px;
+            width: 80px;
+            border: 1px yellowgreen solid;
+            text-align: center;
+            background-color: gold;
+            margin-top: -1px
+        }
+        #l02,#l03,#l04,#l05{
+            display: none;
+        }
+
+
+
+
+    </style>
+
+</head>
+<body>
+	<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+                {% if not request.user.is_authenticated %}
+				<div class="login_btn fl">
+					<a href="{% url 'user:login' %}">登录</a>
+					<span>|</span>
+					<a href="{% url 'user:register' %}">注册</a>
+				</div>
+
+                {% else %}
+				<div class="user_link fl">
+                    <ul id="nav" onmouseover="m()" onmouseout="out()">
+                    <li id="l01"><a>欢迎{{ request.user.username }}</a></li>
+                    <li id="l02"><a href="{% url 'user:user_center' %}">用户中心</a></li>
+                    <li id="l03"><a href="{% url 'cart:cart_list' %}">我的购物车</a></li>
+                    <li id="l04"><a href="{% url 'user:user_order' %}">我的订单</a></li>
+                    <li id="l05"><a href="{% url 'user:logout' %}">退出</a></li>
+                    </ul>
+                    {% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+    var nav=$('#nav>li')
+    function m(){
+        nav.each(function (i,e) {
+            if(i !== 0){
+                e.style.display='block'
+
+            }
+
+    })
+    }
+    function out() {
+        nav.each(function (i,e) {
+            if (i !== 0) {
+                e.style.display = 'none'
+            }
+
+        })
+    }
+
+</script>
+
+
+{% block top %}
+	<div class="search_bar clearfix">
+		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="search_con fl">
+            <form method="get" action="{% url 'goods:search' %}">
+                <input type="text" class="input_text fl" name="fruit" placeholder="搜索商品">
+                <input type="submit" class="input_btn fr" name="" value="搜索">
+            </form>
+		</div>
+
+		<div class="guest_cart fr">
+			<a href="{% url 'cart:cart_list' %}" class="cart_name fl">我的购物车</a>
+			<div class="goods_count fl" id="show_count">{{ count }}</div>
+		</div>
+	</div>
+
+
+	<div class="navbar_con">
+{% block nav %}
+<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+{% endblock %}
+			<ul class="navlist fl">
+				<li><a href="{% url 'goods:index' %}">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="#">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="#">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+    {% endblock %}
+{% block content %}
+
+{% endblock %}
+
+</body>
+</html>

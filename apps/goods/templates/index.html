@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+
+	<div class="center_con clearfix">
+		<ul class="subnav fl">
+                {% for kind in Type %}
+			    <li><a href="#model0{{ kind.id }}" class="{{ kind.logo }}">{{ kind.type }}</a></li>
+                {% endfor %}
+
+		</ul>
+		<div class="slide fl">
+			<ul class="slide_pics">
+                    {% for ban in banner %}
+				    <li><a href="#"><img src="{{ ban.img.url }}" alt="幻灯片"></a></li>
+
+                    {% endfor %}
+			</ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
+		<div class="adv fl">
+                {% for act in active %}
+			    <a href="#"><img src="{{ act.images.url }}"></a>
+                {% endfor %}
+		</div>
+	</div>
+
+    {% for list in Type %}
+	<div class="list_model">
+		<div class="list_title clearfix">
+			<h3 class="fl" id="model{{ list.id }}">{{ list.type }}</h3>
+			<a href="{% url 'goods:type_list' list.id %}" class="goods_more fr" id="fruit_more">查看更多 ></a>
+		</div>
+
+		<div class="goods_con clearfix">
+			<div class="goods_banner fl"><img src="{{ list.image.url }}"></div>
+			<ul class="goods_list fl">
+                {% for x in list.goods_set.all|slice:':4' %}
+				<li>
+					<h4><a href="{% url 'goods:goods' x.id %}">{{ x.name }}</a></h4>
+					<a href="{% url 'goods:goods' x.id %}"><img src="{{ x.img.url }}"></a>
+					<div class="prize">¥ {{ x.price }}</div>
+				</li>
+
+                {% endfor %}
+			</ul>
+		</div>
+	</div>
+    {% endfor %}
+
+
+
+
+	<div class="footer">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>电话：010-****888    京ICP备*******8号</p>
+	</div>
+
+{% endblock %}
